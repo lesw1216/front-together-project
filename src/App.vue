@@ -1,13 +1,9 @@
 <script setup>
-import NavigatorVar from "./components/NavigatorVar.vue";
+import RoutesComp from "./components/RoutesComp.vue";
 </script>
 <template>
-  <div class="flex">
-    <NavigatorVar></NavigatorVar>
-    <router-view></router-view>
-  </div>
+  <RoutesComp></RoutesComp>
 </template>
-
 <style scoped>
 @import "./assets/main.css";
 

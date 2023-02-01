@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+
+import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
 import Todolist from "@/views/TodoList.vue";
 import Calendar from "@/views/Calendar.vue";
@@ -9,6 +11,11 @@ import Store from "@/views/Store.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: "/login",
+      name: "login",
+      component: Login,
+    },
     {
       path: "/",
       name: "home",
@@ -40,6 +47,15 @@ const router = createRouter({
       component: Store,
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  console.log("to" + to);
+  console.log("to.name=" + to.name);
+
+  console.log("from = " + from);
+  console.log("from.name=" + from.name);
+  next();
 });
 
 export default router;
