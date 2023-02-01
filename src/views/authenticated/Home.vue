@@ -12,6 +12,4 @@ const message = ref("HOME");
     <article class="border-black">최근 채팅</article>
   </section>
 </template>
-<style>
-@import "../assets/main.css";
-</style>
+<style></style>

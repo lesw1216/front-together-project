@@ -1,12 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Login from "@/views/Login.vue";
-import Home from "@/views/Home.vue";
-import Todolist from "@/views/TodoList.vue";
-import Calendar from "@/views/Calendar.vue";
-import Notice from "@/views/Notice.vue";
-import Talk from "@/views/Talk.vue";
-import Store from "@/views/Store.vue";
+import Login from "@/views/unAuthenticated/Login.vue";
+import Join from "@/views/unAuthenticated/Join.vue";
+
+import Home from "@/views/authenticated/Home.vue";
+import Todolist from "@/views/authenticated/TodoList.vue";
+import Calendar from "@/views/authenticated/Calendar.vue";
+import Notice from "@/views/authenticated/Notice.vue";
+import Talk from "@/views/authenticated/Talk.vue";
+import Store from "@/views/authenticated/Store.vue";
+import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,45 +20,50 @@ const router = createRouter({
       component: Login,
     },
     {
+      path: "/join",
+      name: "join",
+      component: Join,
+    },
+    {
       path: "/",
-      name: "home",
-      component: Home,
-    },
-    {
-      path: "/todolist",
-      name: "todolist",
-      component: Todolist,
-    },
-    {
-      path: "/calendar",
-      name: "calendar",
-      component: Calendar,
-    },
-    {
-      path: "/notice",
-      name: "notice",
-      component: Notice,
-    },
-    {
-      path: "/talk",
-      name: "talk",
-      component: Talk,
-    },
-    {
-      path: "/store",
-      name: "store",
-      component: Store,
+      component: AuthenticatedView,
+      children: [
+        {
+          path: "",
+          component: Home,
+        },
+        {
+          path: "todolist",
+          component: Todolist,
+        },
+        {
+          path: "calendar",
+          component: Calendar,
+        },
+        {
+          path: "notice",
+          component: Notice,
+        },
+        {
+          path: "talk",
+          component: Talk,
+        },
+        {
+          path: "store",
+          component: Store,
+        },
+      ],
     },
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  console.log("to" + to);
-  console.log("to.name=" + to.name);
+// router.beforeEach((to, from, next) => {
+//   console.log("to" + to);
+//   console.log("to.name=" + to.name);
 
-  console.log("from = " + from);
-  console.log("from.name=" + from.name);
-  next();
-});
+//   console.log("from = " + from);
+//   console.log("from.name=" + from.name);
+//   next();
+// });
 
 export default router;

@@ -1,13 +1,6 @@
-<script setup>
-import NavigatorBar from "./NavigatorBar.vue";
-import Login from "../views/Login.vue";
-
-const isLogin = Login.isLogin;
-console.log(isLogin);
-</script>
+<script setup></script>
 <template>
   <div>
-    <NavigatorBar></NavigatorBar>
     <RouterView></RouterView>
   </div>
 </template>

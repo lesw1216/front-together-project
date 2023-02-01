@@ -7,6 +7,10 @@ ul {
   display: flex;
 }
 
+.justisfy {
+  flex-direction: column;
+}
+
 .grid-container {
   display: grid;
   /* display: inline-grid; */
@@ -28,4 +32,24 @@ ul {
 
 .border-black {
   border: 1px solid black;
+}
+
+.m-1 {
+  margin: 1px;
+}
+
+.m-2 {
+  margin: 2px;
+}
+
+.m-3 {
+  margin: 3px;
+}
+
+.m-4 {
+  margin: 4px;
+}
+
+.m-5 {
+  margin: 5px;
 }
