@@ -11,6 +11,9 @@ import Talk from "@/views/authenticated/Talk.vue";
 import Store from "@/views/authenticated/Store.vue";
 import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -57,13 +60,19 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   console.log("to" + to);
-//   console.log("to.name=" + to.name);
-
-//   console.log("from = " + from);
-//   console.log("from.name=" + from.name);
-//   next();
-// });
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  const { isLogin } = storeToRefs(userStore);
+  console.log(isLogin.value);
+  if (to.name !== "login" && !isLogin.value) {
+    if (to.name === "join") {
+      next();
+    } else {
+      next({ name: "login" });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

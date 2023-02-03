@@ -1,8 +1,16 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 const router = useRouter();
+const userStore = useUserStore();
 
 const logout = () => {
+  const { isLogin } = storeToRefs(userStore);
+  if (isLogin.value) {
+    isLogin.value = !isLogin.value;
+  }
+  console.log("click logout button after isLogin : " + isLogin.value);
   router.push("/login");
 };
 </script>

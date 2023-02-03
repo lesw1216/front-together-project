@@ -7,6 +7,14 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   server: {
+    cors: false,
+    proxy: {
+      "^/api:": {
+        target: "http://localhost:8080",
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        changeOrigin: true,
+      },
+    },
     watch: {
       usePolling: true,
     },

@@ -1,9 +1,34 @@
 <script setup>
+import axios from "axios";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 
+// const axios = require("axios");
+
+const store = useUserStore();
 const router = useRouter();
+
 const login = () => {
+  const { isLogin } = storeToRefs(store);
+
+  console.log(isLogin.value);
+  if (!isLogin.value) {
+    isLogin.value = !isLogin.value;
+  }
+
+  console.log("click login button after : " + isLogin.value);
+
+  axios
+    .get("http://localhost:8080/user")
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   router.push({
     path: "/",
   });
