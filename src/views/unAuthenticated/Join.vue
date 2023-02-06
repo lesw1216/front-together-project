@@ -1,6 +1,33 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { reactive } from "vue";
+import { setUser } from "@/api/index.js";
 const router = useRouter();
+
+const joinUser = reactive({
+  userId: undefined,
+  password: undefined,
+  userName: undefined,
+  userKeyNumber: undefined,
+  userKeyValue: undefined,
+});
+
+const join = () => {
+  let axios = setUser(joinUser);
+  axios
+    .then((response) => {
+      console.log(response.status);
+      if (response.status === 200) {
+        alert("가입 완료!");
+        router.push({
+          path: "/login",
+        });
+      }
+    })
+    .catch((response) => {
+      console.log(err);
+    });
+};
 
 const cancel = () => {
   router.push({
@@ -9,7 +36,49 @@ const cancel = () => {
 };
 </script>
 <template>
-  <h1>회원가입</h1>
-  <button @click="cancel()">취소</button>
+  <div class="flex justisfy board border-black border-round align-items-center">
+    <h1>가입 하기</h1>
+    <label class="md-md">
+      아이디
+      <br />
+      <input v-model="joinUser.userId" type="text" placeholder="ID" autofocus />
+    </label>
+    <label class="md-md">
+      비밀번호
+      <br />
+      <input
+        v-model="joinUser.password"
+        type="password"
+        placeholder="PASSWORD"
+      />
+    </label>
+    <label class="md-md">
+      이름
+      <br />
+      <input v-model="joinUser.userName" type="text" />
+    </label>
+    <label>
+      아이디 / 암호 분실 시 키
+      <br />
+
+      <select class="mr-5 md-lg">
+        <option selected disabled>
+          아이디 또는 비밀번호를 잊어버렸을 때 찾기 위한 키
+        </option>
+        <option>어릴때 별명은?</option>
+        <option>졸업한 학교는?</option>
+        <option>나의 보물 1호는?</option>
+      </select>
+      <input type="text" />
+    </label>
+    <div>
+      <button @click="join()" type="button">가입</button>
+      <button @click="cancel()">취소</button>
+    </div>
+  </div>
 </template>
-<style></style>
+<style scoped>
+.board {
+  margin: 10% 30%;
+}
+</style>
