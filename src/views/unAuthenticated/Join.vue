@@ -1,30 +1,31 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { reactive } from "vue";
-import { setUser } from "@/api/index.js";
+import axiosInstance from "@/api/index";
+
 const router = useRouter();
 
 const joinUser = reactive({
-  userId: undefined,
-  password: undefined,
-  userName: undefined,
-  userKeyNumber: undefined,
-  userKeyValue: undefined,
+  userid: "",
+  password: "",
+  username: "",
+  userKeyNumber: "",
+  userKeyValue: "",
 });
 
+const params = new URLSearchParams();
+params.append("user", "joinUser");
+
 const join = () => {
-  let axios = setUser(joinUser);
-  axios
-    .then((response) => {
-      console.log(response.status);
-      if (response.status === 200) {
-        alert("가입 완료!");
-        router.push({
-          path: "/login",
-        });
+  axiosInstance
+    .post("/api/users", JSON.stringify(joinUser))
+    .then((result) => {
+      if (result.status === 200) {
+        alert("회원 가입 성공!");
+        router.push("/login");
       }
     })
-    .catch((response) => {
+    .catch((err) => {
       console.log(err);
     });
 };
@@ -55,7 +56,7 @@ const cancel = () => {
     <label class="md-md">
       이름
       <br />
-      <input v-model="joinUser.userName" type="text" />
+      <input v-model="joinUser.username" type="text" />
     </label>
     <label>
       아이디 / 암호 분실 시 키

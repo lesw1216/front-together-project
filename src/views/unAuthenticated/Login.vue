@@ -1,5 +1,5 @@
 <script setup>
-import { login } from "@/api/index.js";
+import axiosInstance from "@/api/index";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
@@ -20,17 +20,6 @@ const loginClick = () => {
   if (!isLogin.value) {
     isLogin.value = !isLogin.value;
   }
-
-  const axios = login(loginUser.value);
-  axios
-    .then((res) => {
-      if (res.status === 200) {
-        console.log("로그인 성공");
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 
   router.push({
     path: "/",
