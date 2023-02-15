@@ -23,8 +23,8 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: "/join",
-      name: "join",
+      path: "/signUp",
+      name: "signUp",
       component: Join,
     },
     {
@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
   const { isLogin } = storeToRefs(userStore);
   console.log(isLogin.value);
   if (to.name !== "login" && !isLogin.value) {
-    if (to.name === "join") {
+    if (to.name === "signUp") {
       next();
     } else {
       next({ name: "login" });

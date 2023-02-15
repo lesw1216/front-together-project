@@ -27,7 +27,7 @@ const loginClick = () => {
 };
 
 const join = () => {
-  router.push({ path: "/join" });
+  router.push({ path: "/signUp" });
 };
 </script>
 <template>
