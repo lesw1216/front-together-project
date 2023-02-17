@@ -3,9 +3,10 @@ import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import axiosInstance from "@/api/index";
 
-// 변수
+/* Field */
 const router = useRouter();
 
+/* Func */
 const signUpUser = reactive({
   userId: null,
   password: "",

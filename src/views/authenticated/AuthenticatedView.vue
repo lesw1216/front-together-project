@@ -1,32 +1,24 @@
 <script setup>
 import NavigatorBar from "../../components/NavItem/NavBar.vue";
-import { useViewInfoStore } from "@/stores/viewInfo";
-import { reactive } from "vue";
 
-// // store Import
-// import { storeToRefs } from "pinia";
+/* Pinia */
+import { useNavBarStore } from "@/stores/navBar";
 
-// // store 설정
-const viewInfoStore = useViewInfoStore();
+/* instance */
+const navBarStore = useNavBarStore();
 
-// const { isNavBarOpen } = storeToRefs(viewInfoStore);
+/* Field */
 
+/* Func */
 const onMouseUp = () => {
-  // isNavBarOpen.value = false;
-  // console.log(isNavBarOpen.value);
-  // console.log("viewInfoStore.isNavBarOpen=" + viewInfoStore.isNavBarOpen);
-  console.log("AuthencatedPage = " + viewInfoStore.isNavBarOpen);
+  navBarStore.isNavBarOpen = false;
 };
-
-const onMouseOver = () => {};
 </script>
+
 <template>
   <div class="flex h-screen">
     <NavigatorBar></NavigatorBar>
-    <div
-      class="border-solid border-2 border-yellow-500 w-screen"
-      v-on:mouseup="onMouseUp"
-    >
+    <div class="rounded-md bg-violet-50 w-screen" v-on:mouseup="onMouseUp">
       <router-view></router-view>
     </div>
   </div>

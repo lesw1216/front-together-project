@@ -11,8 +11,9 @@ import Talk from "@/views/authenticated/Talk.vue";
 import Store from "@/views/authenticated/Store.vue";
 import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 
-import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
+import { useNavBarStore } from "@/stores/navBar";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -62,8 +63,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
-  const { isLogin } = storeToRefs(userStore);
-  console.log(isLogin.value);
+  const navBarStore = useNavBarStore();
+
+  const { isLogin, userId, username } = storeToRefs(userStore);
+
+  userId.value = "test";
+  username.value = "이름테스트";
+  navBarStore.currentPath = to.path;
+
   if (to.name !== "login" && !isLogin.value) {
     if (to.name === "signUp") {
       next();

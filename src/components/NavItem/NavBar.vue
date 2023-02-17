@@ -1,15 +1,20 @@
 <script setup>
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { useViewInfoStore } from "@/stores/viewInfo";
-import { storeToRefs } from "pinia";
-import { reactive } from "vue";
+/* Componen imort */
 import NavButton from "./NavButton.vue";
 
-// access
+/* vue import */
+import { useRouter } from "vue-router";
+import { reactive } from "vue";
+
+/* Pinia 관련 import*/
+import { storeToRefs } from "pinia";
+import { useNavBarStore } from "@/stores/navBar";
+import { useUserStore } from "@/stores/user";
+
+// import 꺼내기
 const router = useRouter();
 const userStore = useUserStore();
-const viewInfoStore = useViewInfoStore();
+const navBarStore = useNavBarStore();
 
 // store에서 꺼내기
 // const { isNavBarOpen } = storeToRefs(viewInfoStore);
@@ -17,8 +22,9 @@ const viewInfoStore = useViewInfoStore();
 //   isNavBarOpen: false,
 // });
 
-// 함수
+/* Field */
 
+/* Function */
 const logout = () => {
   const { isLogin } = storeToRefs(userStore);
   if (isLogin.value) {
@@ -30,43 +36,47 @@ const logout = () => {
 
 const onClickMenuBar = () => {};
 
-const onMouseOver = () => {};
-
-const onMouseUp = () => {
-  // console.log("viewInfo.isNavBarOpen = " + viewInfo.isNavBarOpen);
-  viewInfoStore.isNavBarOpen = !viewInfoStore.isNavBarOpen;
-  console.log("pinia viewInfo.isMenuBarOpen=" + viewInfoStore.isNavBarOpen);
+const onMouseOver = () => {
+  navBarStore.isNavBarOpen = true;
 };
+
+const onMouseUp = () => {};
 </script>
 <template>
   <div class="bg-white">
     <div
       v-on:mouseover="onMouseOver"
-      v-on:mouseup="onMouseUp"
-      class="flex flex-col justify-evenly h-screen m-2"
+      class="flex flex-col justify-evenly h-screen my-2 ml-2"
     >
       <!-- 내정보 시작 -->
-      <div class="flex items-stretch rounded-md w-full p-2 hover:bg-violet-100">
-        <!-- 내 정보 -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-      </div>
+      <routerLink to="/">
+        <NavButton :button-name="userStore.userId" current-path="/my">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </NavButton>
+      </routerLink>
+      <button
+        v-on:click="logout()"
+        class="border-solid broder-2 border-rose-900 bg-lime-500"
+      >
+        로그아웃
+      </button>
       <!-- 내정보 종료 -->
       <!-- 홈 router 시작 -->
       <routerLink to="/">
-        <NavButton button-name="HOME">
+        <NavButton button-name="HOME" current-path="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -86,7 +96,7 @@ const onMouseUp = () => {
       <!-- 홈 rotuer 종료 -->
       <!-- 공지사항 router 시작 -->
       <router-link to="/notice">
-        <NavButton button-name="공지">
+        <NavButton button-name="공지" current-path="/notice">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -106,7 +116,7 @@ const onMouseUp = () => {
       <!-- 공지사항 rotuer 종료 -->
       <!-- 달력 router 시작 -->
       <router-link to="/calendar">
-        <NavButton button-name="달력">
+        <NavButton button-name="달력" current-path="/calendar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -127,7 +137,7 @@ const onMouseUp = () => {
       <!-- 달력 router 종료 -->
       <!-- 할일 목록 router 시작 -->
       <router-link to="/todolist">
-        <NavButton button-name="할일">
+        <NavButton button-name="할일" current-path="/todolist">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -146,7 +156,7 @@ const onMouseUp = () => {
       <!-- 할일 목록 router 종료 -->
       <!-- 저장소 router 시작 -->
       <router-link to="/store">
-        <NavButton button-name="저장소">
+        <NavButton button-name="저장소" current-path="/store">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -169,7 +179,7 @@ const onMouseUp = () => {
       <!-- 저장소 router 종료 -->
       <!-- 채팅 router 시작 -->
       <router-link to="/talk">
-        <NavButton button-name="채팅">
+        <NavButton button-name="채팅" current-path="/talk">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -187,12 +197,6 @@ const onMouseUp = () => {
         </NavButton>
       </router-link>
       <!-- 채팅 router 종료 -->
-      <!-- <button
-        v-on:click="logout()"
-        class="border-solid broder-2 border-rose-900 bg-lime-500"
-      >
-        로그아웃
-      </button> -->
     </div>
   </div>
 </template>
