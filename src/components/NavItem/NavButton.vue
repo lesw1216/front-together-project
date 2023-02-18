@@ -23,7 +23,7 @@ const log = () => {
 </script>
 <template>
   <div
-    class="flex rounded-tl-3xl rounded-bl-3xl py-2 pl-2 hover:bg-violet-50 hover:text-violet-600"
+    class="flex rounded-tl-3xl rounded-bl-3xl p-2 hover:bg-violet-50 hover:text-violet-600 drop-shadow"
     v-bind:class="
       currentPath === navBarStore.currentPath
         ? 'bg-violet-50 text-violet-600'

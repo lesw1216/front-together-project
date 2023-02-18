@@ -46,7 +46,7 @@ const onMouseUp = () => {};
   <div class="bg-white">
     <div
       v-on:mouseover="onMouseOver"
-      class="flex flex-col justify-evenly h-screen my-2 ml-2"
+      class="flex flex-col justify-evenly h-screen m-2"
     >
       <!-- 내정보 시작 -->
       <routerLink to="/">
@@ -67,12 +67,7 @@ const onMouseUp = () => {};
           </svg>
         </NavButton>
       </routerLink>
-      <button
-        v-on:click="logout()"
-        class="border-solid broder-2 border-rose-900 bg-lime-500"
-      >
-        로그아웃
-      </button>
+
       <!-- 내정보 종료 -->
       <!-- 홈 router 시작 -->
       <routerLink to="/">
