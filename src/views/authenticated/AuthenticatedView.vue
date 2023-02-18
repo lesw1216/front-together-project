@@ -16,10 +16,10 @@ const onMouseUp = () => {
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <div class="flex h-screen w-screen">
     <NavigatorBar></NavigatorBar>
     <div
-      class="rounded-md bg-violet-50 w-screen drop-shadow"
+      class="rounded-md bg-violet-100 h-screen w-screen drop-shadow"
       v-on:mouseup="onMouseUp"
     >
       <router-view></router-view>

@@ -10,6 +10,7 @@ import Notice from "@/views/authenticated/Notice.vue";
 import Talk from "@/views/authenticated/Talk.vue";
 import Store from "@/views/authenticated/Store.vue";
 import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
+import MyInfo from "@/views/authenticated/MyInfo.vue";
 
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
@@ -55,6 +56,10 @@ const router = createRouter({
         {
           path: "store",
           component: Store,
+        },
+        {
+          path: "myInfo",
+          component: MyInfo,
         },
       ],
     },
