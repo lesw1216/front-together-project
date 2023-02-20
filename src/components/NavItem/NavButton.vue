@@ -25,6 +25,10 @@ const log = () => {
   console.log(propsButtonName.value);
   console.log(userStore.userId);
 };
+
+const onMouseUp = () => {
+  navBarStore.isNavBarOpen = false;
+};
 </script>
 <template>
   <div
@@ -34,6 +38,7 @@ const log = () => {
         ? 'bg-violet-100 text-violet-600'
         : null
     "
+    @click="onMouseUp"
   >
     <button @click="log">
       <slot></slot>

@@ -39,8 +39,6 @@ const onClickMenuBar = () => {};
 const onMouseEnter = () => {
   navBarStore.isNavBarOpen = true;
 };
-
-const onMouseUp = () => {};
 </script>
 <template>
   <div class="bg-white">
