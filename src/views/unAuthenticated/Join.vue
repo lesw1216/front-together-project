@@ -36,28 +36,23 @@ const selectInfo = reactive({
 
 const signUpForm = () => {
   axiosInstance
-    .post("/api/users", JSON.stringify(signUpUser))
+    .post("/api/auth/users", JSON.stringify(signUpUser))
     .then((response) => {
       console.log(response.data);
 
-      // if (response.status === 200) {
-      //   alert("회원 가입 성공!");
-      //   router.push("/login");
-      // } else {
-      //   // JSON.parse(result.data, fieldErrorMessage);
-      //   const fieldErrorUser = result.data;
-      //   fieldErrorMessage.username = fieldErrorUser["username"];
-      //   fieldErrorMessage.password = fieldErrorUser["password"];
-      //   fieldErrorMessage.userId = fieldErrorUser["userId"];
-      //   fieldErrorMessage.checkValid = true;
-      // }
-      const fieldErrorUser = response.data;
-      fieldErrorMessage.username = fieldErrorUser["usernameRejectMsg"];
-      fieldErrorMessage.password = fieldErrorUser["passwordRejectMsg"];
-      fieldErrorMessage.userId = fieldErrorUser["userIdRejectMsg"];
-      fieldErrorMessage.keyValue = fieldErrorUser["keyValueRejectMsg"];
-      fieldErrorMessage.keyNum = fieldErrorUser["keyNumRejectMsg"];
-      console.log("fieldErrorMessage=" + fieldErrorMessage.keyNum);
+      if (response.status === 200) {
+        alert("회원 가입 성공!");
+        router.push("/login");
+      } else {
+        // JSON.parse(result.data, fieldErrorMessage);
+        const fieldErrorUser = response.data;
+        fieldErrorMessage.username = fieldErrorUser["usernameRejectMsg"];
+        fieldErrorMessage.password = fieldErrorUser["passwordRejectMsg"];
+        fieldErrorMessage.userId = fieldErrorUser["userIdRejectMsg"];
+        fieldErrorMessage.keyValue = fieldErrorUser["keyValueRejectMsg"];
+        fieldErrorMessage.keyNum = fieldErrorUser["keyNumRejectMsg"];
+        console.log("fieldErrorMessage=" + fieldErrorMessage.keyNum);
+      }
     })
     .catch((err) => {
       console.log(err);

@@ -3,13 +3,14 @@ import { ref } from "vue";
 
 export const useUserStore = defineStore("users", () => {
   // state
-  const userId = ref("");
-  const username = ref("");
+  const userId = ref();
+  const username = ref();
+  const userPk = ref();
   const isLogin = ref(false);
 
   // getter
 
   // function
 
-  return { userId, username, isLogin };
+  return { userId, username, isLogin, userPk };
 });

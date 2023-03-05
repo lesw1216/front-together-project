@@ -1,16 +1,22 @@
 <script setup>
 import axiosInstance from "@/api/index";
+
+// VUE 관련 설정
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { reactive } from "vue";
+
+// Pinia 관련 설정
 import { useUserStore } from "@/stores/user";
+import { useJwtStore } from "@/stores/Jwt";
 import { storeToRefs } from "pinia";
 
-const store = useUserStore();
+const userStore = useUserStore();
+const jwtStore = useJwtStore();
 const router = useRouter();
 
-const loginUser = ref({
-  name: "",
+const loginUser = reactive({
+  userId: "",
   password: "",
 });
 
@@ -20,17 +26,35 @@ const validErrorMessage = reactive({
   password: "",
 });
 
-const onClickLoginButton = () => {
-  const { isLogin } = storeToRefs(store);
+const loginForm = () => {
+  const { isLogin } = storeToRefs(userStore);
+  console.log(loginUser.userId);
+  console.log(loginUser.password);
+  axiosInstance
+    .post("/api/auth/authentication", JSON.stringify(loginUser))
+    .then((response) => {
+      console.log(response.data);
+      if (response.status === 200) {
+        jwtStore.token = response.data["token"];
+        userStore.userId = response.data["userId"];
+        userStore.userPk = response.data["userPk"];
+        userStore.username = response.data["username"];
+        console.log(jwtStore.token);
+        console.log(userStore.userId);
+        console.log(userStore.userPk);
+        console.log(userStore.username);
+
+        router.push({
+          path: "/",
+        });
+      }
+    })
+    .catch((err) => {});
 
   // login check 검증
   if (!isLogin.value) {
     isLogin.value = !isLogin.value;
   }
-
-  router.push({
-    path: "/",
-  });
 };
 
 const onClickJoinButton = () => {
@@ -48,7 +72,7 @@ const onClickJoinButton = () => {
           {{ validErrorMessage.userId }}
         </div>
         <input
-          v-model="loginUser.name"
+          v-model="loginUser.userId"
           type="text"
           placeholder="ID"
           autofocus
@@ -82,13 +106,12 @@ const onClickJoinButton = () => {
         <button
           type="submit"
           class="rounded-md bg-violet-600 hover:bg-violet-800 text-white w-full font-bold mb-2 mt-2 p-2"
-          @click="onClickLoginButton()"
         >
           로그인
         </button>
       </div>
       <button
-        @click="onClickJoinButton()"
+        @click="onClickJoinButton"
         class="rounded-md bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold w-full p-2"
       >
         회원 가입

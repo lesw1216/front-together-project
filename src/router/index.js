@@ -4,7 +4,7 @@ import Login from "@/views/unAuthenticated/Login.vue";
 import Join from "@/views/unAuthenticated/Join.vue";
 
 import Home from "@/views/authenticated/Home.vue";
-import Todolist from "@/views/authenticated/TodoList.vue";
+import TodoList from "@/views/authenticated/TodoList.vue";
 import Calendar from "@/views/authenticated/Calendar.vue";
 import Notice from "@/views/authenticated/Notice.vue";
 import Talk from "@/views/authenticated/Talk.vue";
@@ -38,8 +38,8 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "todolist",
-          component: Todolist,
+          path: "TodoList",
+          component: TodoList,
         },
         {
           path: "calendar",
