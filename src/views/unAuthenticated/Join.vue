@@ -3,111 +3,239 @@ import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import axiosInstance from "@/api/index";
 
+/* Field */
 const router = useRouter();
 
-const joinUser = reactive({
-  userId: "",
+/* Func */
+const signUpUser = reactive({
+  userId: null,
   password: "",
   username: "",
-  userKeyNumber: "",
-  userKeyValue: "",
+  keyNum: null,
+  keyValue: "",
 });
 
-const validErrorMessage = reactive({
-  username: "",
-  userId: "",
-  password: "",
+const fieldErrorMessage = reactive({
+  username: null,
+  userId: null,
+  password: null,
+  keyNum: null,
+  keyValue: null,
 });
 
-const params = new URLSearchParams();
-params.append("user", "joinUser");
+const selectInfo = reactive({
+  isSelectClick: false,
+  content: "선택하세요",
+  isoptionSelectClick: false,
+});
 
-const joinForm = () => {
+// func
+
+// const params = new URLSearchParams();
+// params.append("user", "signUpUser");
+
+const signUpForm = () => {
   axiosInstance
-    .post("/api/users", JSON.stringify(joinUser))
-    .then((result) => {
-      // if (result.status === 200) {
-      //   alert("회원 가입 성공!");
-      //   router.push("/login");
-      // }
-      console.log(result.data);
-      // JSON.parse(result.data, validErrorMessage);
-      const rejectUser = result.data;
-      validErrorMessage.username = rejectUser["username"];
-      validErrorMessage.password = rejectUser["password"];
-      validErrorMessage.userId = rejectUser["userId"];
-      validErrorMessage.checkValid = true;
+    .post("/api/auth/users", JSON.stringify(signUpUser))
+    .then((response) => {
+      console.log(response.data);
+
+      if (response.status === 200) {
+        alert("회원 가입 성공!");
+        router.push("/login");
+      } else {
+        // JSON.parse(result.data, fieldErrorMessage);
+        const fieldErrorUser = response.data;
+        fieldErrorMessage.username = fieldErrorUser["usernameRejectMsg"];
+        fieldErrorMessage.password = fieldErrorUser["passwordRejectMsg"];
+        fieldErrorMessage.userId = fieldErrorUser["userIdRejectMsg"];
+        fieldErrorMessage.keyValue = fieldErrorUser["keyValueRejectMsg"];
+        fieldErrorMessage.keyNum = fieldErrorUser["keyNumRejectMsg"];
+        console.log("fieldErrorMessage=" + fieldErrorMessage.keyNum);
+      }
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
-const cancel = () => {
+// 질문 선택 버튼 클릭시 작동
+const onClickSelectButton = () => {
+  selectInfo.isSelectClick = !selectInfo.isSelectClick;
+};
+
+// 질문 하나를 클릭시 작동
+const onClickOptionSelectButton = (option, keyNum) => {
+  signUpUser.keyNum = keyNum;
+  selectInfo.content = option;
+  selectInfo.isSelectClick = false;
+  selectInfo.isoptionSelectClick = true;
+};
+
+// 로그인 페이지로 돌아가는 버튼
+const onClickCancelButton = () => {
   router.push({
     path: "/login",
   });
 };
 </script>
 <template>
-  <div>
-    <form
-      @submit.prevent="joinForm"
-      class="flex justisfy board border-black border-round align-items-center"
-    >
-      <h1>가입 하기</h1>
-      <label class="md-md">
-        아이디
-        <br />
-        <div v-if="validErrorMessage.userId !== null">
-          {{ validErrorMessage.userId }}
+  <div class="h-screen flex flex-col items-center justify-center">
+    <form @submit.prevent="signUpForm" class="border-2 rounded-md p-10 w-2/5">
+      <h1 class="text-center text-5xl mb-5">Sign Up</h1>
+      <!--  ID 입력 Label  -->
+      <label>
+        <!-- ID 검증 실패시 알림 -->
+        <div v-if="fieldErrorMessage.userId !== null" class="text-red-600">
+          <p class="text-sm">{{ fieldErrorMessage.userId }}</p>
         </div>
+        <!-- Finish, ID 검증 실패시 알림 -->
+        <!-- ID input 태그 시작 -->
         <input
-          v-model="joinUser.userId"
+          v-model="signUpUser.userId"
           type="text"
           placeholder="ID"
           autofocus
+          class="border-solid border-2 rounded-md focus:outline-none w-full focus:ring-1 mb-2 p-1"
+          v-bind:class="
+            fieldErrorMessage.userId === null
+              ? 'focus:border-sky-500 ring-blue-100'
+              : 'border-red-500 focus:border-red-500 ring-red-400'
+          "
         />
+        <!-- ID input 태그 종료 -->
       </label>
-      <label class="md-md">
-        비밀번호
-        <br />
-        <div v-if="validErrorMessage.password !== null">
-          {{ validErrorMessage.password }}
+      <!-- ID 입력 Label 종료 -->
+      <!-- PASSWORD 입력 Label 시작 -->
+      <label>
+        <!-- PASSWROD 검증 실패시 알림 시작 -->
+        <div v-if="fieldErrorMessage.password !== null" class="text-red-500">
+          <p class="text-sm">{{ fieldErrorMessage.password }}</p>
         </div>
+        <!-- PASSWORD 검증 실패시 알림 종료 -->
+        <!-- PASSWORD input 시작 -->
         <input
-          v-model="joinUser.password"
+          v-model="signUpUser.password"
           type="password"
           placeholder="PASSWORD"
+          class="border-solid border-2 rounded-md focus:outline-none w-full focus:ring-1 mb-2 p-1"
+          v-bind:class="
+            fieldErrorMessage.password === null
+              ? 'focus:border-sky-500 ring-blue-100'
+              : 'border-red-500 focus:border-red-500 ring-red-400'
+          "
+          v-bind:autofocus="fieldErrorMessage.keyValue !== null ? true : false"
+        /><!-- PASSWORD input 종료 -->
+      </label>
+      <!-- PASSWORD 입력 Label 종료 -->
+      <!-- username 입력 Label 시작 -->
+      <label>
+        <!-- username 검증 실패 알림 시작 -->
+        <div v-if="fieldErrorMessage.username !== null" class="text-red-500">
+          <p class="text-sm">{{ fieldErrorMessage.username }}</p>
+        </div>
+        <!-- username 검증 실패 알림 종료 -->
+        <!-- username input 시작 -->
+        <input
+          v-bind:value="signUpUser.username"
+          @input="
+            (event) => {
+              signUpUser.username = event.target.value;
+            }
+          "
+          type="text"
+          placeholder="이름"
+          class="border-solid border-2 rounded-md focus:outline-none w-full focus:ring-1 mb-2 p-1"
+          v-bind:class="
+            fieldErrorMessage.username === null
+              ? 'focus:border-sky-500 ring-blue-100'
+              : 'border-red-500 focus:border-red-500 ring-red-400'
+          "
+        /><!-- username input 종료 -->
+      </label>
+      <!-- username 입력 Label 종료 -->
+
+      <!-- 암호 찾기 질문 입력 시작-->
+      <p v-if="fieldErrorMessage.keyNum !== null" class="text-red-500">
+        {{ fieldErrorMessage.keyNum }}
+      </p>
+      <p v-else class="font-sans">아이디 / 암호 분실 키</p>
+
+      <button
+        type="button"
+        class="border-solid border-2 focus:outline-none focus:ring-1 w-full p-1"
+        v-bind:class="[
+          selectInfo.isSelectClick ? 'rounded-t-md' : 'rounded-md',
+          fieldErrorMessage.keyNum === null
+            ? 'focus:border-sky-500 focus:ring-blue-100'
+            : 'border-red-500 focus:border-red-500 ring-red-400',
+        ]"
+        @click="onClickSelectButton()"
+      >
+        {{ selectInfo.content }}
+      </button>
+      <div v-if="selectInfo.isSelectClick">
+        <button
+          type="button"
+          class="border-sold border-l-2 border-r-2 hover:bg-lime-50 focus:bg-lime-200 w-full p-1"
+          @click="onClickOptionSelectButton('어릴때 별명은?', 0)"
+        >
+          어릴때 별명은?
+        </button>
+        <button
+          type="button"
+          class="border-sold border-l-2 border-r-2 hover:bg-lime-50 focus:bg-lime-200 w-full p-1"
+          @click="onClickOptionSelectButton('졸업한 학교는?', 1)"
+        >
+          졸업한 학교는?
+        </button>
+        <button
+          type="button"
+          class="rounded-b-md border-sold border-l-2 border-r-2 border-b-2 hover:bg-lime-50 focus:bg-lime-200 w-full p-1"
+          @click="onClickOptionSelectButton('나의 보물 1호는?', 2)"
+        >
+          나의 보물 1호는?
+        </button>
+      </div>
+      <label>
+        <div
+          v-if="fieldErrorMessage.keyValue !== null"
+          class="text-red-500 mt-2"
+        >
+          <p class="text-sm">
+            {{ fieldErrorMessage.keyValue }}
+          </p>
+        </div>
+        <input
+          v-bind:value="signUpUser.keyValue"
+          @input="(event) => (signUpUser.keyValue = event.target.value)"
+          type="text"
+          placeholder="질문의 답"
+          class="border-solid border-2 rounded-md focus:outline-none w-full focus:ring-1 mb-2 p-1"
+          v-bind:class="
+            fieldErrorMessage.keyValue === null
+              ? 'focus:border-sky-500 ring-blue-100 mt-2'
+              : 'border-red-500 focus:border-red-500 ring-red-400'
+          "
         />
       </label>
-      <label class="md-md">
-        이름
-        <br />
-        <div v-if="validErrorMessage.username !== null">
-          {{ validErrorMessage.username }}
-        </div>
-        <input v-model="joinUser.username" type="text" />
-      </label>
-      <label>
-        아이디 / 암호 분실 시 키
-        <br />
 
-        <select class="mr-5 md-lg">
-          <option selected disabled>
-            아이디 또는 비밀번호를 잊어버렸을 때 찾기 위한 키
-          </option>
-          <option>어릴때 별명은?</option>
-          <option>졸업한 학교는?</option>
-          <option>나의 보물 1호는?</option>
-        </select>
-        <input type="text" />
-      </label>
+      <!-- 버튼 입력 -->
       <div>
-        <button type="submit">가입</button>
+        <button
+          type="submit"
+          class="rounded-md bg-violet-600 hover:bg-violet-800 text-white w-full font-bold mb-2 p-2"
+        >
+          가입
+        </button>
       </div>
+      <button
+        @click="onClickCancelButton()"
+        class="rounded-md bg-red-600 hover:bg-red-700 text-white font-bold w-full p-2"
+      >
+        취소
+      </button>
     </form>
-    <button @click="cancel()">취소</button>
   </div>
 </template>
 <style scoped>
