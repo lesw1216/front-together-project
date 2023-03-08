@@ -6,9 +6,11 @@ import axiosInstance from "@/api/index";
 // Pinia
 import { useJwtStore } from "@/stores/Jwt";
 import { useUserStore } from "@/stores/user";
+import { useDateStore } from "@/stores/date";
 
 const jwtStore = useJwtStore();
 const userStore = useUserStore();
+const dateStore = useDateStore();
 
 // ========== Field, Object =============
 
@@ -30,26 +32,42 @@ const deleteTodo = reactive({
 // 할일 수정시 사용하는 객체
 const updateTodo = reactive({
   id: null,
-  isCompletion: false,
   content: null,
+  isCompletion: false,
 });
 
 // 전체 조회 JSON 리스트로 받기위한 객체
-const todoLists = ref();
+const todoLists = ref([]);
+
+const date = reactive({
+  today: new Date(),
+  beforeAfter: new Date(),
+  currentCustomDate: new Date(),
+});
 
 // ======= Function =========
 
 // 할일 추가
 const todoForm = () => {
-  addTodo.createdDate = new Date();
+  const utc =
+    new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1;
 
-  console.log(addTodo.createdDate);
+  const today = new Date(utc);
+
+  // yyyy-mm-ddThh:mm:ssZ
+  const todayISOString = today.toISOString();
+
+  // yyyy-mm-dd
+  const sliceToday = todayISOString.slice(0, 10);
+
+  addTodo.createdDate = sliceToday;
+
   axiosInstance
     .post("/api/todoLists", JSON.stringify(addTodo), {
       headers: { Authorization: "Bearer " + jwtStore.token },
     })
     .then((response) => {
-      todoLists.value = response.data;
+      todoLists.value.push(response.data);
     })
     .catch((err) => {});
 };
@@ -57,7 +75,7 @@ const todoForm = () => {
 // 할일 삭제
 const deleteTodoForm = (todoId) => {
   deleteTodo.id = todoId;
-  deleteTodo.createdDate = new Date();
+  deleteTodo.createdDate = date.currentCustomDate;
   axiosInstance
     .delete("/api/todoLists", {
       headers: {
@@ -74,7 +92,7 @@ const deleteTodoForm = (todoId) => {
 
 // 할일 전부 삭제
 const deleteAllTodoForm = () => {
-  deleteTodo.createdDate = new Date();
+  deleteTodo.createdDate = date.currentCustomDate;
 
   axiosInstance
     .delete("/api/todoLists", {
@@ -96,37 +114,46 @@ const updateTodoForm = (todoList) => {
   console.log("update.content=", updateTodo.content);
   updateTodo.id = todoList.id;
   updateTodo.isCompletion = todoList.isCompletion;
+  console.log(updateTodo.id);
 
   axiosInstance
-    .put("api/todoLists", {
+    .put("/api/todoLists", JSON.stringify(updateTodo), {
       headers: {
         Authorization: "Bearer " + jwtStore.token,
       },
-      data: JSON.stringify(updateTodo),
     })
     .then((res) => {})
     .catch((err) => {});
 };
+
+const completionTodoListId = ref();
 
 // 완료 취소 버튼
 const completionTodoForm = (todoList) => {
   updateTodo.content = todoList.content;
   updateTodo.id = todoList.id;
   updateTodo.isCompletion = !updateTodo.isCompletion;
+
   axiosInstance
-    .put("api/todoLists", {
+    .put("/api/todoLists", JSON.stringify(updateTodo), {
       headers: {
         Authorization: "Bearer " + jwtStore.token,
       },
-      data: JSON.stringify(updateTodo),
     })
     .then((res) => {
-      console.log(res);
+      if (res.status === 200) {
+      }
     })
     .catch((err) => {});
 };
 
-onMounted(() => {
+const beforeDate = () => {
+  const beforeAfter = new Date(
+    date.beforeAfter.setDate(date.beforeAfter.getDate() - 1)
+  );
+
+  date.currentCustomDate = beforeAfter;
+
   axiosInstance
     .get("/api/todoLists", {
       headers: {
@@ -135,11 +162,92 @@ onMounted(() => {
       },
       params: {
         userPk: userStore.userPk,
-        createdDate: new Date(),
+        createdDate: beforeAfter,
       },
     })
     .then((res) => {
       todoLists.value = res.data;
+    })
+    .catch((err) => {});
+};
+
+const OnClickTomorrow = () => {
+  dateStore.setTodayLocalDateTime();
+  const getToday = dateStore.getTomorrowLocalDateISOString();
+  const temp = dateStore.getTomorrowLocalDateISOString();
+
+  console.log("getToday=", getToday);
+  console.log("temp=", temp);
+  console.log("dateSotre.date=", dateStore.date);
+
+  const tomorrow = new Date(
+    dateStore.date.setDate(dateStore.date.getDate() + 1)
+  ).toISOString();
+
+  console.log("dateStore.date=", dateStore.date);
+  console.log("tommorw=", tomorrow);
+
+  axiosInstance
+    .get("/api/todoLists", {
+      headers: {
+        Authorization: "Bearer " + jwtStore.token,
+        "Content-Type": "text/plain",
+      },
+      params: {
+        userPk: userStore.userPk,
+        createdDate: OnClickTomorrow,
+      },
+    })
+    .then((res) => {
+      todoLists.value = res.data;
+    })
+    .catch((err) => {});
+};
+
+const onClickToday = () => {
+  date.today = new Date();
+
+  dateStore.setTodayLocalDateISOString();
+
+  date.currentCustomDate = date.today;
+  date.beforeAfter = date.today;
+
+  axiosInstance
+    .get("/api/todoLists", {
+      headers: {
+        Authorization: "Bearer " + jwtStore.token,
+        "Content-Type": "text/plain",
+      },
+      params: {
+        userPk: userStore.userPk,
+        createdDate: dateStore.localDate,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      todoLists.value = res.data;
+    })
+    .catch((err) => {});
+};
+
+onMounted(() => {
+  dateStore.setTodayLocalDateISOString();
+
+  axiosInstance
+    .get("/api/todoLists", {
+      headers: {
+        Authorization: "Bearer " + jwtStore.token,
+        "Content-Type": "text/plain",
+      },
+      params: {
+        userPk: userStore.userPk,
+        createdDate: dateStore.localDate,
+      },
+    })
+    .then((res) => {
+      res.data.forEach((data) => {
+        todoLists.value.push(data);
+      });
     })
     .catch((err) => {});
 });
@@ -152,11 +260,54 @@ onMounted(() => {
       <!-- 날짜 -->
       <div class="basis-1/12 m-5">
         <div class="flex justify-center items-center w-full h-full">
-          <div>왼쪽 화살표</div>
+          <button
+            class="border-2 rounded-md border-violet-600"
+            @click="beforeDate"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
+            </svg>
+          </button>
           <div class="mx-2 text-3xl">
-            {{ new Date().toLocaleDateString() }}
+            {{ date.currentCustomDate.toLocaleDateString() }}
           </div>
-          <div>오른쪽 화살표</div>
+          <button
+            class="border-2 rounded-md mr-1 px-1 border-violet-600"
+            @click="onClickToday"
+          >
+            TODAY
+          </button>
+
+          <button
+            class="border-2 rounded-md border-violet-600"
+            @click="OnClickTomorrow"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       <!-- 입력창 -->
@@ -200,7 +351,9 @@ onMounted(() => {
                 >
                   <input
                     class="hover:border-2 hover:border-violet-600 hover:outline-none w-full h-full rounded-md p-2 outline-none focus:outline-none focus:border-2 focus:border-violet-600"
-                    v-bind:class="todoList.isCompletion ? 'line-through' : null"
+                    v-bind:class="[
+                      todoList.isCompletion ? 'line-through' : null,
+                    ]"
                     v-bind:value="todoList.content"
                     v-on:input="
                       (event) => (updateTodo.content = event.target.value)
