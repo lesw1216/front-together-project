@@ -39,8 +39,6 @@ const updateTodo = reactive({
 // 전체 조회 JSON 리스트로 받기위한 객체
 const todoLists = ref([]);
 
-const inputReset = ref("");
-
 // ======= Function =========
 
 // 할일 추가
@@ -111,8 +109,6 @@ const updateTodoForm = (todoList) => {
     .then((res) => {})
     .catch((err) => {});
 };
-
-const index = ref();
 
 // 완료 취소 버튼
 const completionTodoForm = (todoList) => {
