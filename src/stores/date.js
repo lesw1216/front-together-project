@@ -4,39 +4,13 @@ import { ref } from "vue";
 export const useDateStore = defineStore("date", () => {
   // state
   const utc = ref();
-  const date = ref();
-  const localDate = ref();
-  const currentDate = ref();
+  const currentDate = ref(
+    new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1
+  );
 
   // getter
 
   // action
-
-  // General Date
-  function setTodayLocalDateTime() {
-    utc.value =
-      new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1;
-
-    date.value = new Date(utc.value);
-  }
-
-  // Date Format yyyy-MM-dd
-  function setTodayLocalDateISOString() {
-    // yyyy-mm-ddThh:mm:ssZ
-    utc.value =
-      new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1;
-
-    const dateISOString = new Date(utc.value).toISOString();
-    currentDate.value = dateISOString.slice(0, 10);
-
-    // yyyy-mm-dd
-    localDate.value = dateISOString.slice(0, 10);
-  }
-
-  // Date Format yyyy-mm-dd
-  function setTomorrowLocalDateISOString() {
-    new Date(date.value.setDate(date.getDate() + 1));
-  }
 
   function getTodayLocalDateISOString() {
     // yyyy-mm-ddThh:mm:ssZ
@@ -51,18 +25,27 @@ export const useDateStore = defineStore("date", () => {
   }
 
   function getTomorrowLocalDateISOString() {
-    const temp = new Date();
-    // currentDate.value.setDate(currentDate.value.getDate() + 1)
+    const convertDate = new Date(currentDate.value);
+    const tomorrow = new Date(convertDate.setDate(convertDate.getDate() + 1));
+    currentDate.value = tomorrow.toISOString().slice(0, 10);
+    return currentDate.value;
+  }
 
-    return temp.toISOString.slice(0, 10);
+  function getCurrentDate() {
+    return new Date(currentDate.value).toISOString().slice(0, 10);
+  }
+
+  function getYesterdayLocalDateISOString() {
+    const convertDate = new Date(currentDate.value);
+    const yesterday = new Date(convertDate.setDate(convertDate.getDate() - 1));
+    currentDate.value = yesterday.toISOString().slice(0, 10);
+    return currentDate.value;
   }
 
   return {
-    setTodayLocalDateISOString,
-    setTodayLocalDateTime,
-    localDate,
-    date,
     getTodayLocalDateISOString,
     getTomorrowLocalDateISOString,
+    getCurrentDate,
+    getYesterdayLocalDateISOString,
   };
 });

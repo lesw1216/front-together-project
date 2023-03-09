@@ -39,35 +39,23 @@ const updateTodo = reactive({
 // 전체 조회 JSON 리스트로 받기위한 객체
 const todoLists = ref([]);
 
-const date = reactive({
-  today: new Date(),
-  beforeAfter: new Date(),
-  currentCustomDate: new Date(),
-});
+const inputReset = ref("");
 
 // ======= Function =========
 
 // 할일 추가
 const todoForm = () => {
-  const utc =
-    new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1;
-
-  const today = new Date(utc);
-
-  // yyyy-mm-ddThh:mm:ssZ
-  const todayISOString = today.toISOString();
-
-  // yyyy-mm-dd
-  const sliceToday = todayISOString.slice(0, 10);
-
-  addTodo.createdDate = sliceToday;
+  addTodo.createdDate = dateStore.getCurrentDate();
 
   axiosInstance
     .post("/api/todoLists", JSON.stringify(addTodo), {
       headers: { Authorization: "Bearer " + jwtStore.token },
     })
     .then((response) => {
-      todoLists.value.push(response.data);
+      if (response.status == 200) {
+        todoLists.value.push(response.data);
+        addTodo.content = "";
+      }
     })
     .catch((err) => {});
 };
@@ -75,7 +63,7 @@ const todoForm = () => {
 // 할일 삭제
 const deleteTodoForm = (todoId) => {
   deleteTodo.id = todoId;
-  deleteTodo.createdDate = date.currentCustomDate;
+  deleteTodo.createdDate = dateStore.getCurrentDate();
   axiosInstance
     .delete("/api/todoLists", {
       headers: {
@@ -92,7 +80,8 @@ const deleteTodoForm = (todoId) => {
 
 // 할일 전부 삭제
 const deleteAllTodoForm = () => {
-  deleteTodo.createdDate = date.currentCustomDate;
+  deleteTodo.createdDate = dateStore.getCurrentDate();
+  deleteTodo.id = null;
 
   axiosInstance
     .delete("/api/todoLists", {
@@ -110,11 +99,8 @@ const deleteAllTodoForm = () => {
 
 // 할일 수정
 const updateTodoForm = (todoList) => {
-  console.log("update");
-  console.log("update.content=", updateTodo.content);
   updateTodo.id = todoList.id;
   updateTodo.isCompletion = todoList.isCompletion;
-  console.log(updateTodo.id);
 
   axiosInstance
     .put("/api/todoLists", JSON.stringify(updateTodo), {
@@ -126,13 +112,19 @@ const updateTodoForm = (todoList) => {
     .catch((err) => {});
 };
 
-const completionTodoListId = ref();
+const index = ref();
 
 // 완료 취소 버튼
 const completionTodoForm = (todoList) => {
   updateTodo.content = todoList.content;
   updateTodo.id = todoList.id;
-  updateTodo.isCompletion = !updateTodo.isCompletion;
+  updateTodo.isCompletion = !todoList.isCompletion;
+
+  // todoLists.value.forEach((list) => {
+  //   if (list.id === todoList.id) {
+  //     // index.value = list.id;
+  //   }
+  // });
 
   axiosInstance
     .put("/api/todoLists", JSON.stringify(updateTodo), {
@@ -142,17 +134,15 @@ const completionTodoForm = (todoList) => {
     })
     .then((res) => {
       if (res.status === 200) {
+        console.log(updateTodo.isCompletion);
+        todoList.isCompletion = updateTodo.isCompletion;
       }
     })
     .catch((err) => {});
 };
 
 const beforeDate = () => {
-  const beforeAfter = new Date(
-    date.beforeAfter.setDate(date.beforeAfter.getDate() - 1)
-  );
-
-  date.currentCustomDate = beforeAfter;
+  const beforeDate = dateStore.getYesterdayLocalDateISOString();
 
   axiosInstance
     .get("/api/todoLists", {
@@ -162,7 +152,7 @@ const beforeDate = () => {
       },
       params: {
         userPk: userStore.userPk,
-        createdDate: beforeAfter,
+        createdDate: beforeDate,
       },
     })
     .then((res) => {
@@ -172,20 +162,7 @@ const beforeDate = () => {
 };
 
 const OnClickTomorrow = () => {
-  dateStore.setTodayLocalDateTime();
-  const getToday = dateStore.getTomorrowLocalDateISOString();
-  const temp = dateStore.getTomorrowLocalDateISOString();
-
-  console.log("getToday=", getToday);
-  console.log("temp=", temp);
-  console.log("dateSotre.date=", dateStore.date);
-
-  const tomorrow = new Date(
-    dateStore.date.setDate(dateStore.date.getDate() + 1)
-  ).toISOString();
-
-  console.log("dateStore.date=", dateStore.date);
-  console.log("tommorw=", tomorrow);
+  const nextDay = dateStore.getTomorrowLocalDateISOString();
 
   axiosInstance
     .get("/api/todoLists", {
@@ -195,7 +172,7 @@ const OnClickTomorrow = () => {
       },
       params: {
         userPk: userStore.userPk,
-        createdDate: OnClickTomorrow,
+        createdDate: nextDay,
       },
     })
     .then((res) => {
@@ -205,12 +182,7 @@ const OnClickTomorrow = () => {
 };
 
 const onClickToday = () => {
-  date.today = new Date();
-
-  dateStore.setTodayLocalDateISOString();
-
-  date.currentCustomDate = date.today;
-  date.beforeAfter = date.today;
+  const today = dateStore.getTodayLocalDateISOString();
 
   axiosInstance
     .get("/api/todoLists", {
@@ -220,7 +192,7 @@ const onClickToday = () => {
       },
       params: {
         userPk: userStore.userPk,
-        createdDate: dateStore.localDate,
+        createdDate: today,
       },
     })
     .then((res) => {
@@ -231,7 +203,7 @@ const onClickToday = () => {
 };
 
 onMounted(() => {
-  dateStore.setTodayLocalDateISOString();
+  const today = dateStore.getTodayLocalDateISOString();
 
   axiosInstance
     .get("/api/todoLists", {
@@ -241,7 +213,7 @@ onMounted(() => {
       },
       params: {
         userPk: userStore.userPk,
-        createdDate: dateStore.localDate,
+        createdDate: today,
       },
     })
     .then((res) => {
@@ -280,7 +252,7 @@ onMounted(() => {
             </svg>
           </button>
           <div class="mx-2 text-3xl">
-            {{ date.currentCustomDate.toLocaleDateString() }}
+            {{ dateStore.getCurrentDate() }}
           </div>
           <button
             class="border-2 rounded-md mr-1 px-1 border-violet-600"
@@ -316,16 +288,16 @@ onMounted(() => {
           <div class="basis-full h-full">
             <input
               type="text"
-              class="border-solid border-2 rounded-xl border-violet-200 focus:outline-none focus:ring-2 focus:ring-violet-400 p-4 h-full w-full"
+              class="border-solid border-2 rounded-xl border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600 p-2 h-full w-full"
               v-model="addTodo.content"
             />
           </div>
           <div class="ml-2">
             <button
               type="submit"
-              class="rounded-xl hover:bg-violet-600 hover:text-white font-bold whitespace-nowrap p-2 h-full outline-none border-2"
+              class="rounded-md border-gray-500 focus:ring-1 hover:border-gray-600 font-bold whitespace-nowrap px-2 h-full outline-none border-2"
             >
-              할일 추가
+              추가
             </button>
           </div>
         </div>
