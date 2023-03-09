@@ -28,16 +28,122 @@
         </button>
       </header>
       <!-- 리스트 -->
-      <hr class="mx-5 border-2 border-black" />
       <div class="basis-full m-5 h-96">
-        <div class="h-full">
-          <ul class="h-full overflow-y-auto">
-            <div class="">
-              <li class="flex justify-end h-8 w-full mt-4"></li>
-            </div>
+        <div>
+          <ul>
+            <li class="flex justify-end whitespace-nowrap mb-2 text-center">
+              <div class="basis-full">제목</div>
+              <div class="ml-2 w-40">작성자</div>
+              <div class="mx-2 w-60">작성일자</div>
+              <div class="w-40">조회수</div>
+            </li>
+            <hr class="border-2 border-black mb-5" />
+
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
+            <li class="flex justify-end whitespace-nowrap text-center mb-3">
+              <div class="basis-full text-start">업데이트 공지</div>
+              <div class="ml-2 w-40">운영자</div>
+              <div class="mx-2 w-60">2022-02-13 22:10</div>
+              <div class="w-40">10</div>
+            </li>
+            <hr class="mb-3" />
           </ul>
         </div>
       </div>
+      <footer>
+        <div class="flex m-5 p-3 justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </div>
+      </footer>
     </section>
   </div>
 </template>
