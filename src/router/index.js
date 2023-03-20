@@ -12,9 +12,10 @@ import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 import MyInfo from "@/views/authenticated/MyInfo.vue";
 
 // 공지사항 view
-import NoticeView from "@/views/authenticated/Notice/NoticeView.vue";
+import NoticeView from "@/views/authenticated/notice/NoticeView.vue";
 import NoticeMain from "@/components/Notices/NoticeMain.vue";
 import NoticeWriter from "@/components/Notices/Write.vue";
+import NoticeRead from "@/components/Notices/Read.vue";
 
 // pinia
 import { storeToRefs } from "pinia";
@@ -61,6 +62,10 @@ const router = createRouter({
             {
               path: "/notice/write",
               component: NoticeWriter,
+            },
+            {
+              path: "/notice/read",
+              component: NoticeRead,
             },
           ],
         },

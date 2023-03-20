@@ -222,16 +222,13 @@ onMounted(() => {
 </script>
 <template>
   <div class="w-full h-full p-2">
-    <section
-      class="flex flex-col bg-white rounded-3xl w-full h-full mb-4 shadow-xl"
+    <main
+      class="flex flex-col bg-white rounded-3xl w-full h-full p-4 shadow-xl"
     >
       <!-- 날짜 -->
-      <div class="basis-1/12 m-5">
-        <div class="flex justify-center items-center w-full h-full">
-          <button
-            class="border-2 rounded-md border-violet-600"
-            @click="beforeDate"
-          >
+      <header class="basis-1/12 flex flex-col mb-2">
+        <div class="flex justify-between items-center w-full h-full">
+          <button class="h-full" @click="beforeDate">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -250,17 +247,8 @@ onMounted(() => {
           <div class="mx-2 text-3xl">
             {{ dateStore.getCurrentDate() }}
           </div>
-          <button
-            class="border-2 rounded-md mr-1 px-1 border-violet-600"
-            @click="onClickToday"
-          >
-            TODAY
-          </button>
 
-          <button
-            class="border-2 rounded-md border-violet-600"
-            @click="OnClickTomorrow"
-          >
+          <button class="h-full" @click="OnClickTomorrow">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -277,48 +265,61 @@ onMounted(() => {
             </svg>
           </button>
         </div>
-      </div>
-      <!-- 입력창 -->
-      <form v-on:submit.prevent="todoForm" class="basis-1/12 m-5">
-        <div class="flex justify-end h-full">
-          <div class="basis-full h-full">
-            <input
-              type="text"
-              class="border-solid border-2 rounded-xl border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600 p-2 h-full w-full"
-              v-model="addTodo.content"
-            />
-          </div>
-          <div class="ml-2">
-            <button
-              type="submit"
-              class="rounded-md border-gray-500 focus:ring-1 hover:border-gray-600 font-bold whitespace-nowrap px-2 h-full outline-none border-2"
-            >
-              추가
-            </button>
-          </div>
+        <div>
+          <button
+            class="rounded-md border border-slate-500 text-slate-500 outline-none p-1 mt-2 hover:text-violet-600 hover:border-violet-600"
+            @click="onClickToday"
+          >
+            오늘로 가기!
+          </button>
         </div>
-      </form>
-      <!-- 리스트 -->
-      <hr class="mx-5 border-2 border-black" />
-      <div class="basis-full m-5 h-96">
-        <div class="h-full">
-          <ul class="h-full overflow-y-auto">
-            <div>
+      </header>
+      <section class="mb-2 flex flex-col">
+        <!-- 입력창 -->
+        <form v-on:submit.prevent="todoForm" class="basis-1/12">
+          <div
+            class="flex justify-end h-full border p-2 border-violet-300 rounded-md"
+          >
+            <div class="basis-full h-full">
+              <input
+                type="text"
+                class="p-2 h-full w-full outline-none focus:outline-none"
+                v-model="addTodo.content"
+              />
+            </div>
+            <div class="ml-2">
               <button
-                class="w-full font-bold outline-none rounded-md p-2 border-red-600 border-2 hover:text-white hover:bg-red-600"
-                @click="deleteAllTodoForm"
+                type="submit"
+                class="border-gray-300 px-2 h-full outline-none focus:outline-none"
               >
-                전체 삭제
+                +
               </button>
             </div>
+          </div>
+        </form>
+        <div class="mt-2">
+          <button
+            class="w-auto font-bold outline-none rounded-md p-1 border border-slate-500 text-slate-500 hover:border-red-600 hover:text-red-600"
+            @click="deleteAllTodoForm"
+          >
+            전체 삭제
+          </button>
+        </div>
+      </section>
+      <!-- 리스트 -->
+      <section class="basis-full h-96">
+        <div class="h-full">
+          <ul class="h-full overflow-y-auto">
             <div class="" v-for="todoList in todoLists">
-              <li class="flex justify-end h-8 w-full mt-4">
+              <li
+                class="flex justify-end mt-4 border border-violet-300 rounded-md shadow-md p-4 mr-4"
+              >
                 <form
                   v-on:submit.prevent="updateTodoForm(todoList)"
                   class="basis-full"
                 >
                   <input
-                    class="hover:border-2 hover:border-violet-600 hover:outline-none w-full h-full rounded-md p-2 outline-none focus:outline-none focus:border-2 focus:border-violet-600"
+                    class="hover:outline-none w-full h-full rounded-md outline-none focus:p-2 focus:outline-none focus:border-2 focus:border-violet-600"
                     v-bind:class="[
                       todoList.isCompletion ? 'line-through' : null,
                     ]"
@@ -329,9 +330,9 @@ onMounted(() => {
                   />
                 </form>
 
-                <div class="flex h-full whitespace-nowrap">
+                <div class="flex whitespace-nowrap">
                   <button
-                    class="border-2 border-violet-600 rounded-md mx-2 px-3 hover:bg-violet-600 font-bold hover:text-white"
+                    class="h-full border border-violet-600 rounded-md mx-2 p-2 hover:text-violet-900"
                     type="submit"
                     @click="completionTodoForm(todoList)"
                   >
@@ -339,7 +340,7 @@ onMounted(() => {
                     <p v-else>완료</p>
                   </button>
                   <button
-                    class="rounded-md border-red-600 border-2 px-3 font-bold hover:bg-red-600 hover:text-white"
+                    class="h-full rounded-md border-red-600 border p-2 hover:bg-red-600 hover:text-white"
                     type="submit"
                     @click="deleteTodoForm(todoList.id)"
                   >
@@ -350,8 +351,8 @@ onMounted(() => {
             </div>
           </ul>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   </div>
 </template>
 <style></style>

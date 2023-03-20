@@ -1,5 +1,7 @@
 <script setup></script>
 <template>
-  <RouterView></RouterView>
+  <div class="h-full">
+    <RouterView></RouterView>
+  </div>
 </template>
 <style scoped></style>

@@ -44,7 +44,7 @@ const onMouseEnter = () => {
   <div class="bg-white">
     <div
       v-on:mouseenter="onMouseEnter"
-      class="flex flex-col justify-evenly h-full m-2 content-start"
+      class="flex flex-col content-start p-2 h-full"
     >
       <!-- 내정보 시작 -->
       <div class="flex flex-col">
@@ -77,7 +77,7 @@ const onMouseEnter = () => {
       </div>
       <!-- 내정보 종료 -->
       <!-- 홈 router 시작 -->
-      <routerLink to="/">
+      <routerLink to="/" class="mb-2">
         <NavButton button-name="HOME" current-path="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ const onMouseEnter = () => {
       </routerLink>
       <!-- 홈 rotuer 종료 -->
       <!-- 공지사항 router 시작 -->
-      <router-link to="/notice">
+      <router-link to="/notice" class="mb-2">
         <NavButton button-name="공지" current-path="/notice">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ const onMouseEnter = () => {
       </router-link>
       <!-- 공지사항 rotuer 종료 -->
       <!-- 달력 router 시작 -->
-      <router-link to="/calendar">
+      <router-link to="/calendar" class="mb-2">
         <NavButton button-name="달력" current-path="/calendar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +138,7 @@ const onMouseEnter = () => {
       </router-link>
       <!-- 달력 router 종료 -->
       <!-- 할일 목록 router 시작 -->
-      <router-link to="/todolist">
+      <router-link to="/todolist" class="mb-2">
         <NavButton button-name="할일" current-path="/todolist">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,7 @@ const onMouseEnter = () => {
       </router-link>
       <!-- 할일 목록 router 종료 -->
       <!-- 저장소 router 시작 -->
-      <router-link to="/store">
+      <router-link to="/store" class="mb-2">
         <NavButton button-name="저장소" current-path="/store">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ const onMouseEnter = () => {
       </router-link>
       <!-- 저장소 router 종료 -->
       <!-- 채팅 router 시작 -->
-      <router-link to="/talk">
+      <router-link to="/talk" class="mb-2">
         <NavButton button-name="채팅" current-path="/talk">
           <svg
             xmlns="http://www.w3.org/2000/svg"
