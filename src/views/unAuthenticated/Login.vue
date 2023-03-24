@@ -57,6 +57,22 @@ const loginForm = () => {
   }
 };
 
+const OffServer = () => {
+  const { isLogin } = storeToRefs(userStore);
+
+  userStore.userId = "test";
+  userStore.userPk = 1;
+  userStore.username = "테스터";
+  // login check 검증
+  if (!isLogin.value) {
+    isLogin.value = !isLogin.value;
+  }
+
+  router.push({
+    path: "/",
+  });
+};
+
 const onClickJoinButton = () => {
   router.push({ path: "/signUp" });
 };
@@ -115,6 +131,13 @@ const onClickJoinButton = () => {
         class="rounded-md bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold w-full p-2"
       >
         회원 가입
+      </button>
+      <button
+        type="button"
+        class="rounded-md bg-violet-600 hover:bg-violet-800 text-white w-full font-bold mb-2 mt-2 p-2"
+        v-on:click="OffServer"
+      >
+        서버 없이 로그인
       </button>
     </form>
   </div>

@@ -2,15 +2,6 @@
 import RoutesComp from "./components/RoutesComp.vue";
 </script>
 <template>
-  <RoutesComp></RoutesComp>
+  <RoutesComp class="w-full h-full"></RoutesComp>
 </template>
-<style scoped>
-body {
-  margin: 0;
-}
-
-#app {
-  width: 100vw;
-  height: 100vh;
-}
-</style>
+<style scoped></style>

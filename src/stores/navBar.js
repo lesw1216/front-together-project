@@ -5,10 +5,18 @@ export const useNavBarStore = defineStore("navBar", () => {
   // state
   const isNavBarOpen = ref(false);
   const currentPath = ref("");
+  const isMainDisplay = ref(true);
 
   // getter
 
   // action
+  function setIsMainDisplay(isValue) {
+    isMainDisplay.value = isValue;
+  }
 
-  return { isNavBarOpen };
+  function getIsMainDisplay() {
+    return isMainDisplay.value;
+  }
+
+  return { isNavBarOpen, setIsMainDisplay, getIsMainDisplay };
 });

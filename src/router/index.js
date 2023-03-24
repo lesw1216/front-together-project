@@ -6,12 +6,18 @@ import Join from "@/views/unAuthenticated/Join.vue";
 import Home from "@/views/authenticated/Home.vue";
 import TodoList from "@/views/authenticated/TodoList.vue";
 import Calendar from "@/views/authenticated/Calendar.vue";
-import Notice from "@/views/authenticated/Notice.vue";
 import Talk from "@/views/authenticated/Talk.vue";
 import Store from "@/views/authenticated/Store.vue";
 import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 import MyInfo from "@/views/authenticated/MyInfo.vue";
 
+// 공지사항 view
+import NoticeView from "@/views/authenticated/notice/NoticeView.vue";
+import NoticeMain from "@/components/Notices/NoticeMain.vue";
+import NoticeWriter from "@/components/Notices/Write.vue";
+import NoticeRead from "@/components/Notices/Read.vue";
+
+// pinia
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import { useNavBarStore } from "@/stores/navBar";
@@ -38,7 +44,7 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "TodoList",
+          path: "todoList",
           component: TodoList,
         },
         {
@@ -47,7 +53,21 @@ const router = createRouter({
         },
         {
           path: "notice",
-          component: Notice,
+          component: NoticeView,
+          children: [
+            {
+              path: "",
+              component: NoticeMain,
+            },
+            {
+              path: "/notice/write",
+              component: NoticeWriter,
+            },
+            {
+              path: "/notice/read",
+              component: NoticeRead,
+            },
+          ],
         },
         {
           path: "talk",
