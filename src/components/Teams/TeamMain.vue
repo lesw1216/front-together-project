@@ -1,21 +1,45 @@
 <script setup>
+import TeamModal from "./TeamModal.vue";
+
 import { useUserStore } from "@/stores/user";
+import { reactive } from "vue";
 
 // pinia
 const userStore = useUserStore();
+
+const modalCheck = reactive({
+  modalCheckName: "none",
+  isClick: false,
+});
+
+// func
+
+const OnClickTeamModalButton = (modalCheckName) => {
+  modalCheck.isClick = !modalCheck.isClick;
+  modalCheck.modalCheckName = modalCheckName;
+};
 </script>
 <template>
   <main class="p-2 h-full w-full">
+    <TeamModal
+      v-if="modalCheck.isClick"
+      :modal-name="modalCheck.modalCheckName"
+      @cancel="OnClickTeamModalButton('none')"
+    />
     <div
       class="p-2 h-full shadow-xl border-slate-300 rounded-2xl w-full relative"
     >
-      <div v-if="userStore.getTeam() === null" class="h-full">
+      <div
+        v-if="userStore.getTeam() === null && !modalCheck.isClick"
+        class="h-full"
+      >
         <div class="flex flex-col justify-center h-full items-center">
           <h1 class="text-center text-5xl mb-20">가입한 팀이 없습니다.ㅠㅠ</h1>
 
           <div class="">
             <button
               class="text-xl border rounded-md p-2 mb-2 bg-violet-600 text-white"
+              @click="OnClickTeamModalButton('create')"
             >
               팀 생성
             </button>
@@ -23,13 +47,14 @@ const userStore = useUserStore();
           <div>
             <button
               class="text-xl border rounded-md p-2 bg-violet-600 text-white"
+              @click="OnClickTeamModalButton('join')"
             >
               팀 가입
             </button>
           </div>
         </div>
       </div>
-      <div v-else class="flex flex-col h-full">
+      <div v-else-if="userStore.getTeam() != null" class="flex flex-col h-full">
         <h1 class="text-3xl mb-2">팀 이름</h1>
         <div class="flex justify-between">
           <div>생성일</div>
