@@ -124,7 +124,7 @@ onMounted(() => {
       </article>
     </section>
     <section class="basis-1/3 bg-white rounded-2xl shadow-xl border relative">
-      <div class="blur-sm h-full rounded-2xl">
+      <div class="blur-sm rounded-2xl">
         <h1>최근 채팅</h1>
       </div>
       <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
