@@ -17,6 +17,10 @@ import NoticeMain from "@/components/Notices/NoticeMain.vue";
 import NoticeWriter from "@/components/Notices/Write.vue";
 import NoticeRead from "@/components/Notices/Read.vue";
 
+// 팀 정보
+import Team from "@/views/authenticated/TeamView.vue";
+import TeamMain from "@/components/Teams/TeamMain.vue";
+
 // pinia
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
@@ -80,6 +84,16 @@ const router = createRouter({
         {
           path: "myInfo",
           component: MyInfo,
+        },
+        {
+          path: "team",
+          component: Team,
+          children: [
+            {
+              path: "",
+              component: TeamMain,
+            },
+          ],
         },
       ],
     },

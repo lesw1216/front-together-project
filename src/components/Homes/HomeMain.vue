@@ -1,6 +1,4 @@
 <script setup>
-import TeamRequiredMsgComp from "@/components/Teams/TeamRequiredMsgComp.vue";
-
 import axiosInstance from "@/api/index";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
@@ -19,8 +17,6 @@ const router = useRouter();
 
 // Field
 const todoLists = ref([]);
-
-const requiredTeamMessage = ref("팀에 가입되어야 합니다.");
 
 // func
 onMounted(() => {
@@ -108,26 +104,19 @@ onMounted(() => {
         </div> -->
     </section>
     <section class="basis-1/3 mr-2 flex flex-col justify-start">
-      <article class="basis-1/3 bg-white rounded-2xl mb-2 border relative">
-        <div class="blur-sm h-full rounded-2xl">sdfdf</div>
-
-        <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
+      <article class="basis-1/3 bg-white rounded-2xl mb-2 border">
+        <div>공지사항</div>
       </article>
-      <article
-        class="basis-1/3 bg-white mb-2 rounded-2xl shadow-xl border relative"
-      >
-        <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
+      <article class="basis-1/3 bg-white mb-2 rounded-2xl shadow-xl border">
+        <div>제일 빠른 일정(달력)</div>
       </article>
 
-      <article class="basis-1/3 bg-white rounded-2xl shadow-xl brode relative">
-        <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
+      <article class="basis-1/3 bg-white rounded-2xl shadow-xl broder">
+        <div>최근 공유된 파일(저장소)</div>
       </article>
     </section>
-    <section class="basis-1/3 bg-white rounded-2xl shadow-xl border relative">
-      <div class="blur-sm rounded-2xl">
-        <h1>최근 채팅</h1>
-      </div>
-      <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
+    <section class="basis-1/3 bg-white rounded-2xl shadow-xl border">
+      최근 채팅
     </section>
   </main>
 </template>
