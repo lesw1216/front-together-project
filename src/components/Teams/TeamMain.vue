@@ -27,7 +27,8 @@ const OnClickTeamModalButton = (modalCheckName) => {
       @cancel="OnClickTeamModalButton('none')"
     />
     <div
-      class="p-2 h-full shadow-xl border-slate-300 rounded-2xl w-full relative"
+      class="p-2 h-full shadow-xl border-slate-300 rounded-2xl w-full relative border"
+      v-else
     >
       <div
         v-if="userStore.getTeam() === null && !modalCheck.isClick"
