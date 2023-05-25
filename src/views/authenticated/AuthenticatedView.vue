@@ -10,15 +10,17 @@ const navBarStore = useNavBarStore();
 /* Field */
 
 /* Func */
-const onMouseUp = () => {
-  navBarStore.isNavBarOpen = false;
-};
+// const onMouseUp = () => {
+//   navBarStore.isNavBarOpen = false;
+// };
 </script>
 
 <template>
   <div class="flex">
-    <NavigatorBar v-if="navBarStore.getIsMainDisplay()"></NavigatorBar>
-    <div class="rounded-2xl drop-shadow w-full" v-on:mouseup="onMouseUp">
+    <!-- <NavigatorBar v-if="navBarStore.getIsMainDisplay()"></NavigatorBar> -->
+    <NavigatorBar></NavigatorBar>
+    <!-- <div class="rounded-2xl drop-shadow w-full" v-on:mouseup="onMouseUp"> -->
+    <div class="rounded-2xl drop-shadow w-full">
       <router-view></router-view>
     </div>
   </div>

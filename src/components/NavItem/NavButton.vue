@@ -32,11 +32,9 @@ const onMouseUp = () => {
 </script>
 <template>
   <div
-    class="flex rounded-tl-3xl rounded-bl-3xl p-2 hover:bg-violet-50 hover:text-violet-600 drop-shadow"
+    class="flex text-white my-2 p-4 rounded-sm"
     v-bind:class="
-      currentPath === navBarStore.currentPath
-        ? 'bg-violet-100 text-violet-600'
-        : null
+      currentPath === navBarStore.currentPath ? 'bg-slate-600' : null
     "
     @click="onMouseUp"
   >
@@ -44,7 +42,8 @@ const onMouseUp = () => {
       <slot></slot>
     </button>
 
-    <div v-if="navBarStore.isNavBarOpen">
+    <!-- <div v-if="navBarStore.isNavBarOpen"> -->
+    <div>
       <p class="self-center whitespace-nowrap ml-2">
         {{ buttonName }}
       </p>
