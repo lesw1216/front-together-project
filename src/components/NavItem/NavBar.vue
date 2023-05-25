@@ -41,11 +41,12 @@ const onMouseEnter = () => {
 };
 </script>
 <template>
-  <div class="bg-white">
-    <div
+  <div class="bg-slate-800">
+    <!-- <div
       v-on:mouseenter="onMouseEnter"
       class="flex flex-col content-start p-2 h-full"
-    >
+    > -->
+    <div class="flex flex-col content-start p-2 h-full">
       <!-- 내정보 시작 -->
       <div class="flex flex-col">
         <routerLink to="/myInfo">
@@ -66,9 +67,13 @@ const onMouseEnter = () => {
             </svg>
           </NavButton>
         </routerLink>
-        <button
+        <!-- <button
           v-if="navBarStore.isNavBarOpen"
           class="self-end text-sm hover:underline hover:text-violet-600 m-2"
+          @click="logout"
+        > -->
+        <button
+          class="self-end text-sm text-white hover:underline m-2"
           @click="logout"
         >
           로그아웃

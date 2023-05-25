@@ -7,7 +7,7 @@ import Home from "@/views/authenticated/Home.vue";
 import TodoList from "@/views/authenticated/TodoList.vue";
 import Calendar from "@/views/authenticated/Calendar.vue";
 import Talk from "@/views/authenticated/Talk.vue";
-import Store from "@/views/authenticated/Store.vue";
+import StoreView from "@/views/authenticated/StoreView.vue";
 import AuthenticatedView from "@/views/authenticated/AuthenticatedView.vue";
 import MyInfo from "@/views/authenticated/MyInfo.vue";
 
@@ -26,9 +26,17 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import { useNavBarStore } from "@/stores/navBar";
 
+// 컴포넌트 테스트 뷰
+import CompTest from "@/views/CompTestView.vue";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: "/comptest",
+      name: "comptest",
+      component: CompTest,
+    },
     {
       path: "/login",
       name: "login",
@@ -79,7 +87,7 @@ const router = createRouter({
         },
         {
           path: "store",
-          component: Store,
+          component: StoreView,
         },
         {
           path: "myInfo",
@@ -111,7 +119,7 @@ router.beforeEach((to, from, next) => {
   navBarStore.currentPath = to.path;
 
   if (to.name !== "login" && !isLogin.value) {
-    if (to.name === "signUp") {
+    if (to.name === "signUp" || to.name === "comptest") {
       next();
     } else {
       next({ name: "login" });

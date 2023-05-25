@@ -21,14 +21,13 @@ const OnClickTeamModalButton = (modalCheckName) => {
 </script>
 <template>
   <main class="p-2 h-full w-full">
+    <!-- 팀 생성, 가입 버튼 클릭시 모달창 -->
     <TeamModal
       v-if="modalCheck.isClick"
       :modal-name="modalCheck.modalCheckName"
       @cancel="OnClickTeamModalButton('none')"
     />
-    <div
-      class="p-2 h-full shadow-xl border-slate-300 rounded-2xl w-full relative"
-    >
+    <div class="p-2 h-full w-full relative" v-else>
       <div
         v-if="userStore.getTeam() === null && !modalCheck.isClick"
         class="h-full"
@@ -38,7 +37,7 @@ const OnClickTeamModalButton = (modalCheckName) => {
 
           <div class="">
             <button
-              class="text-xl border rounded-md p-2 mb-2 bg-violet-600 text-white"
+              class="text-4xl border rounded-md p-4 mb-2 bg-slate-700 text-white"
               @click="OnClickTeamModalButton('create')"
             >
               팀 생성
@@ -46,7 +45,7 @@ const OnClickTeamModalButton = (modalCheckName) => {
           </div>
           <div>
             <button
-              class="text-xl border rounded-md p-2 bg-violet-600 text-white"
+              class="text-4xl border rounded-md p-4 bg-slate-700 text-white"
               @click="OnClickTeamModalButton('join')"
             >
               팀 가입

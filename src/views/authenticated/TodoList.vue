@@ -267,7 +267,7 @@ onMounted(() => {
         </div>
         <div>
           <button
-            class="rounded-md border border-slate-500 text-slate-500 outline-none p-1 mt-2 hover:text-violet-600 hover:border-violet-600"
+            class="rounded-md bg-slate-700 text-white outline-none p-2 mt-2 border text-2xl"
             @click="onClickToday"
           >
             오늘로 가기!
@@ -278,7 +278,7 @@ onMounted(() => {
         <!-- 입력창 -->
         <form v-on:submit.prevent="todoForm" class="basis-1/12">
           <div
-            class="flex justify-end h-full border p-2 border-violet-300 rounded-md"
+            class="flex justify-end h-full border p-2 border-slate-700 rounded-md"
           >
             <div class="basis-full h-full">
               <input

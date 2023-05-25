@@ -8,6 +8,7 @@ export const useUserStore = defineStore("users", () => {
   const userPk = ref();
   const isLogin = ref(false);
   const team = ref(null);
+  const teamReader = ref(false);
 
   // getter
 
@@ -20,5 +21,22 @@ export const useUserStore = defineStore("users", () => {
     teamName = team.value;
   }
 
-  return { userId, username, isLogin, userPk, getTeam, setTeam };
+  function getTeamReader() {
+    return teamReader.value;
+  }
+
+  function setTeamReader(isReader) {
+    teamReader.value = isReader;
+  }
+
+  return {
+    userId,
+    username,
+    isLogin,
+    userPk,
+    getTeam,
+    setTeam,
+    getTeamReader,
+    setTeamReader,
+  };
 });

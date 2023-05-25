@@ -56,7 +56,7 @@ sdfsdfsdf</textarea
         </button>
         <button
           @click="OnClickToListButton"
-          class="border border-slate-500 hover:border-emerald-500 hover:text-emerald-600 w-full p-2 text-center"
+          class="border bg-slate-700 text-white w-full p-2 text-center"
         >
           글 목록
         </button>

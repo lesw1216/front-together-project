@@ -108,25 +108,24 @@ onMounted(() => {
         </div> -->
     </section>
     <section class="basis-1/3 mr-2 flex flex-col justify-start">
+      <!-- 일정 -->
       <article class="basis-1/3 bg-white rounded-2xl mb-2 border relative">
-        <div class="blur-sm h-full rounded-2xl">sdfdf</div>
-
         <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
       </article>
+
+      <!-- // 저장 공유 -->
       <article
         class="basis-1/3 bg-white mb-2 rounded-2xl shadow-xl border relative"
       >
         <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
       </article>
 
+      <!-- // 최근 공지사항 -->
       <article class="basis-1/3 bg-white rounded-2xl shadow-xl brode relative">
         <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
       </article>
     </section>
     <section class="basis-1/3 bg-white rounded-2xl shadow-xl border relative">
-      <div class="blur-sm rounded-2xl">
-        <h1>최근 채팅</h1>
-      </div>
       <TeamRequiredMsgComp :required-team="requiredTeamMessage" />
     </section>
   </main>
