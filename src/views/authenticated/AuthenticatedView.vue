@@ -16,11 +16,11 @@ const navBarStore = useNavBarStore();
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex w-screen">
+    <NavigatorBar class="h-full"></NavigatorBar>
     <!-- <NavigatorBar v-if="navBarStore.getIsMainDisplay()"></NavigatorBar> -->
-    <NavigatorBar></NavigatorBar>
     <!-- <div class="rounded-2xl drop-shadow w-full" v-on:mouseup="onMouseUp"> -->
-    <div class="rounded-2xl drop-shadow w-full">
+    <div class="flex-grow overflow-auto">
       <router-view></router-view>
     </div>
   </div>
