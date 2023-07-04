@@ -13,7 +13,7 @@ export const useDateStore = defineStore("date", () => {
   // action
 
   function getTodayLocalDateISOString() {
-    // yyyy-mm-ddThh:mm:ssZ
+    // yyyy-mm-ddThh:mm:ssZ_
     utc.value =
       new Date().getTime() + new Date().getTimezoneOffset() * 60000 * -1;
     currentDate.value = new Date(utc.value);

@@ -43,7 +43,7 @@ const todoLists = ref([]);
 
 // 할일 추가
 const todoForm = () => {
-  addTodo.createdDate = dateStore.getCurrentDate();
+  addTodo.createdDate = dateStore.getCurrentDate(); // 저장되는 날짜
 
   axiosInstance
     .post("/api/todoLists", JSON.stringify(addTodo), {
@@ -71,6 +71,7 @@ const deleteTodoForm = (todoId) => {
     })
     .then((res) => {
       console.log(res.data);
+      ㅇㄴ;
       todoLists.value = res.data;
     })
     .catch((err) => {});
